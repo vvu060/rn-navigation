@@ -1,14 +1,40 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Feed from './screens/tabScreens/Feed';
+import Settings from './screens/tabScreens/Settings';
+import Notifications from './screens/tabScreens/Notifications';
+
+import { Ionicons } from '@expo/vector-icons';
 
 // Tab bottom
 const Tab = createBottomTabNavigator();
 
 function TabGroup() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route, navigation }) => ({
+        tabBarIcon: ({ color, focused, size }) => {
+          let iconName;
+
+          if (route.name === 'Feed') {
+            iconName = focused ? 'home' : 'home-outline';
+          }
+
+          if (route.name === 'Settings') {
+            iconName = focused ? 'settings' : 'settings-outline';
+          }
+
+          if (route.name === 'Notifications') {
+            iconName = focused ? 'notifications' : 'notifications-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+    >
       <Tab.Screen name='Feed' component={Feed} />
+      <Tab.Screen name='Notifications' component={Notifications} />
+      <Tab.Screen name='Settings' component={Settings} />
     </Tab.Navigator>
   );
 }
